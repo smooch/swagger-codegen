@@ -20,40 +20,15 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 ## Installation
 
-### Build a gem
-
-To build the Ruby code into a gem:
+Install the gem:
 
 ```shell
-gem build {{{gemName}}}.gemspec
+gem install {{{gemName}}}
 ```
 
-Then either install the gem locally:
-
-```shell
-gem install ./{{{gemName}}}-{{{gemVersion}}}.gem
-```
-(for development, run `gem install --dev ./{{{gemName}}}-{{{gemVersion}}}.gem` to install the development dependencies)
-
-or publish the gem to a gem hosting service, e.g. [RubyGems](https://rubygems.org/).
-
-Finally add this to the Gemfile:
+Add this to the Gemfile:
 
     gem '{{{gemName}}}', '~> {{{gemVersion}}}'
-
-### Install from Git
-
-If the Ruby gem is hosted at a git repository: https://github.com/{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}YOUR_GIT_USERNAME{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}YOUR_GIT_REPO{{/gitRepoId}}, then add the following in the Gemfile:
-
-    gem '{{{gemName}}}', :git => 'https://github.com/{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}YOUR_GIT_USERNAME{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}YOUR_GIT_REPO{{/gitRepoId}}.git'
-
-### Include the Ruby code directly
-
-Include the Ruby code directly using `-I` as follows:
-
-```shell
-ruby -Ilib script.rb
-```
 
 ## Getting Started
 
@@ -68,7 +43,7 @@ require '{{{gemName}}}'
   config.username = 'YOUR USERNAME'
   config.password = 'YOUR PASSWORD'{{/isBasic}}{{#isApiKey}}
   # Configure API key authorization: {{{name}}}
-  config.api_key['{{{keyParamName}}}'] = 'YOUR API KEY'
+  config.api_key['{{{keyParamName}}}'] = 'YOUR JWT'
   config.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}
   # Configure OAuth2 access token for authorization: {{{name}}}
   config.access_token = 'YOUR ACCESS TOKEN'{{/isOAuth}}
