@@ -32,7 +32,33 @@ Add this to the Gemfile:
 
 ## Getting Started
 
-Please follow the [installation](#installation) procedure and then run the following code:
+### Authentication with JSON Web Tokens (JWTs)
+
+JSON Web Tokens (JWTs) are an industry standard authentication mechanism. A great introduction to the technology is available [here](https://jwt.io/introduction/), and a broad set of supported JWT libraries for a variety of languages and platforms are available.
+
+A JWT is composed of a header, a payload, and a signature. The payload contains information called claims which describe the subject to whom the token was issued.
+
+Before you can make calls to the Smooch API, you'll need to create a JWT that proves you are authorized to use the API.
+
+ #### **Step 1** Generate a KEY ID and SECRET on the settings tab in the Smooch Dashboard.
+
+![secret key and id](https://docs.smooch.io/images/secret_keys.png)
+
+ #### **Step 2** Generate the JWT
+
+Using the [ruby-jwt](https://github.com/jwt/ruby-jwt) gem:
+
+```ruby
+require 'jwt'
+
+payload = {:scope => 'app'}
+jwtHeader = {:kid => KEY_ID}
+
+token = JWT.encode payload, SECRET, 'HS256', jwtHeader
+```
+
+### Running the code
+
 ```ruby
 # Load the gem
 require '{{{gemName}}}'
