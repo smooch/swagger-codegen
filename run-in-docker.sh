@@ -14,6 +14,5 @@ docker run --rm -it \
         -v "${PWD}:/gen" \
         -v "${SPEC_FOLDER:-$PWD}:/spec" \
         -v "${maven_cache_repo}:/root/.m2/repository" \
-        -e JAVA_OPTS="-Xmx1024M -DloggerPath=conf/log4j.properties -DapiTests=false -DmodelTests=false" \
         --entrypoint /gen/docker-entrypoint.sh \
         maven:3-jdk-7 "$@"
