@@ -134,7 +134,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         //Common files
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
-        writeOptional(outputFolder, new SupportingFile("build.gradle.mustache", embeddedTemplateDir, "build.gradle"));
+        writeOptional(outputFolder, new SupportingFile("build.gradle.mustache", "", "build.gradle"));
         writeOptional(outputFolder, new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         writeOptional(outputFolder, new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         writeOptional(outputFolder, new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
