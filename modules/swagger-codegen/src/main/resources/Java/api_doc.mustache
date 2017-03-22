@@ -21,11 +21,11 @@ Method | HTTP request | Description
 ### Example
 ```java
 // Import classes:{{#hasAuthMethods}}
-//import {{{invokerPackage}}}.ApiClient;{{/hasAuthMethods}}
-//import {{{invokerPackage}}}.ApiException;{{#hasAuthMethods}}
-//import {{{invokerPackage}}}.Configuration;
-//import {{{invokerPackage}}}.auth.*;{{/hasAuthMethods}}
-//import {{{package}}}.{{{classname}}};
+import {{{invokerPackage}}}.ApiClient;{{/hasAuthMethods}}
+import {{{invokerPackage}}}.ApiException;{{#hasAuthMethods}}
+import {{{invokerPackage}}}.Configuration;
+import {{{invokerPackage}}}.auth.*;{{/hasAuthMethods}}
+import {{{package}}}.{{{classname}}};
 
 {{#hasAuthMethods}}
 ApiClient defaultClient = Configuration.getDefaultApiClient();
