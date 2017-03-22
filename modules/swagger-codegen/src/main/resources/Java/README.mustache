@@ -80,10 +80,10 @@ String jwt = Jwts.builder()
 
 ```java
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
-import {{{invokerPackage}}}.ApiClient;{{/hasAuthMethods}}
-import {{{invokerPackage}}}.ApiException;{{#hasAuthMethods}}
+import {{{invokerPackage}}}.ApiClient;
+import {{{invokerPackage}}}.ApiException;
 import {{{invokerPackage}}}.Configuration;
-import {{{invokerPackage}}}.auth.*;{{/hasAuthMethods}}
+import {{{invokerPackage}}}.auth.*;
 import {{{package}}}.{{{classname}}};
 
 import java.io.File;
