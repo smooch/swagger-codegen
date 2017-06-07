@@ -49,6 +49,8 @@
     - Uncomment ‘Bearer’ prefix
 - Add JSON Web Tokens (JWTs) section (in Getting Started) to explain JWT generation.
 - Remove Author section
+- Removed unused imports
+- Convert generated JWT to string
 
 ### modules/swagger-codegen/src/main/resources/python/api_doc.mustache
 

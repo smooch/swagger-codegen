@@ -38,14 +38,16 @@ Using the [pyjwt](https://github.com/jpadilla/pyjwt/) module:
 
 ```python
 import jwt
-token = jwt.encode({'scope': 'app'}, SECRET, algorithm='HS256', headers={'kid': KEY_ID})
+token_bytes = jwt.encode({'scope': 'app'},
+                         'SECRET',
+                         algorithm='HS256',
+                         headers={'kid': 'KEY_ID'})
+token = token_bytes.decode('utf-8')
 ```
 
 ### Running the code
 
 ```python
-from __future__ import print_function
-import time
 import {{{packageName}}}
 from {{{packageName}}}.rest import ApiException
 from pprint import pprint
@@ -59,6 +61,7 @@ from pprint import pprint
 # Configure OAuth2 access token for authorization: {{{name}}}
 {{{packageName}}}.configuration.access_token = 'YOUR_ACCESS_TOKEN'{{/isOAuth}}{{/authMethods}}
 {{/hasAuthMethods}}
+
 # create an instance of the API class
 api_instance = {{{packageName}}}.{{{classname}}}()
 {{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
