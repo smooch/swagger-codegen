@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-import * as models from './models';
+
 
 /**
  * Model for testing reserved words  *_/ ' \" =end -- \\r\\n \\n \\r
@@ -22,3 +22,5 @@ export interface ModelReturn {
     return?: number;
 
 }
+
+

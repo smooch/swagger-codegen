@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -12,6 +13,7 @@ import javax.validation.constraints.*;
  * Describes the result of uploading an image resource
  */
 @ApiModel(description = "Describes the result of uploading an image resource")
+@Validated
 
 public class ModelApiResponse   {
   @JsonProperty("code")
@@ -28,7 +30,7 @@ public class ModelApiResponse   {
     return this;
   }
 
-   /**
+  /**
    * Get code
    * @return code
   **/
@@ -48,7 +50,7 @@ public class ModelApiResponse   {
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
   **/
@@ -68,7 +70,7 @@ public class ModelApiResponse   {
     return this;
   }
 
-   /**
+  /**
    * Get message
    * @return message
   **/

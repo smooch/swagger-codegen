@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
+import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.models.properties.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -19,6 +20,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean useCollection = false;
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
+
+    protected String modelPropertyNaming = "PascalCase";
 
     protected String packageVersion = "1.0.0";
     protected String packageName = "IO.Swagger";
@@ -44,6 +47,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public AbstractCSharpCodegen() {
         super();
+
+        supportsInheritance = true;
 
         // C# does not use import mapping
         importMapping.clear();
@@ -258,24 +263,33 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         
         // {{useDateTimeOffset}}
         if (additionalProperties.containsKey(CodegenConstants.USE_DATETIME_OFFSET)) {
-            useDateTimeOffset(Boolean.valueOf(additionalProperties.get(CodegenConstants.USE_DATETIME_OFFSET).toString()));
+            useDateTimeOffset(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DATETIME_OFFSET));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_DATETIME_OFFSET, useDateTimeOffsetFlag);
         }
-        additionalProperties.put(CodegenConstants.USE_DATETIME_OFFSET, useDateTimeOffsetFlag);
 
         if (additionalProperties.containsKey(CodegenConstants.USE_COLLECTION)) {
-            setUseCollection(Boolean.valueOf(additionalProperties.get(CodegenConstants.USE_COLLECTION).toString()));
+            setUseCollection(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_COLLECTION));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_COLLECTION, useCollection);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.RETURN_ICOLLECTION)) {
-            setReturnICollection(Boolean.valueOf(additionalProperties.get(CodegenConstants.RETURN_ICOLLECTION).toString()));
+            setReturnICollection(convertPropertyToBooleanAndWriteBack(CodegenConstants.RETURN_ICOLLECTION));
+        } else {
+            additionalProperties.put(CodegenConstants.RETURN_ICOLLECTION, returnICollection);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
-            setOptionalEmitDefaultValue(Boolean.valueOf(additionalProperties.get(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES).toString()));
+            setOptionalEmitDefaultValue(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValue);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.NETCORE_PROJECT_FILE)) {
-            setNetCoreProjectFileFlag(Boolean.valueOf(additionalProperties.get(CodegenConstants.NETCORE_PROJECT_FILE).toString()));
+            setNetCoreProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.NETCORE_PROJECT_FILE));
+        } else {
+            additionalProperties.put(CodegenConstants.NETCORE_PROJECT_FILE, netCoreProjectFileFlag);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
@@ -290,6 +304,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // This either updates additionalProperties with the above fixes, or sets the default if the option was not specified.
         additionalProperties.put(CodegenConstants.INTERFACE_PREFIX, interfacePrefix);
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
     }
 
     @Override
@@ -309,6 +328,61 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
         // process enum in models
         return postProcessModelsEnum(objs);
+    }
+
+    /**
+     * Invoked by {@link DefaultGenerator} after all models have been post-processed, allowing for a last pass of codegen-specific model cleanup.
+     *
+     * @param objs Current state of codegen object model.
+     * @return An in-place modified state of the codegen object model.
+     */
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        final Map<String, Object> processed =  super.postProcessAllModels(objs);
+        postProcessEnumRefs(processed);
+        return processed;
+    }
+
+    /**
+     * C# differs from other languages in that Enums are not _true_ objects; enums are compiled to integral types.
+     * So, in C#, an enum is considers more like a user-defined primitive.
+     *
+     * When working with enums, we can't always assume a RefModel is a nullable type (where default(YourType) == null),
+     * so this post processing runs through all models to find RefModel'd enums. Then, it runs through all vars and modifies
+     * those vars referencing RefModel'd enums to work the same as inlined enums rather than as objects.
+     * @param models
+     */
+    private void postProcessEnumRefs(final Map<String, Object> models) {
+        Map<String, CodegenModel> enumRefs = new HashMap<String, CodegenModel>();
+        for (Map.Entry<String, Object> entry : models.entrySet()) {
+            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
+            if (model.isEnum) {
+                enumRefs.put(entry.getKey(), model);
+            }
+        }
+
+        for (Map.Entry<String, Object> entry : models.entrySet()) {
+            String swaggerName = entry.getKey();
+            CodegenModel model = ModelUtils.getModelByName(swaggerName, models);
+            if (model != null) {
+                for (CodegenProperty var : model.allVars) {
+                    if (enumRefs.containsKey(var.datatype)) {
+                        // Handle any enum properties referred to by $ref.
+                        // This is different in C# than most other generators, because enums in C# are compiled to integral types,
+                        // while enums in many other languages are true objects.
+                        CodegenModel refModel = enumRefs.get(var.datatype);
+                        var.allowableValues = refModel.allowableValues;
+                        updateCodegenPropertyEnum(var);
+
+                        // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
+                        var.isPrimitiveType = true;
+                        var.isEnum = true;
+                    }
+                }
+            } else {
+                LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", swaggerName);
+            }
+        }
     }
 
     @Override
@@ -345,6 +419,20 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         } else {
                             operation.returnContainer = operation.returnType;
                             operation.isMapContainer = this.mapTypes.contains(typeMapping);
+                        }
+                    }
+
+                    if (operation.examples != null){
+                        for (Map<String, String> example : operation.examples)
+                        {
+                            for (Map.Entry<String, String> entry : example.entrySet())
+                            {
+                                // Replace " with \", \r, \n with \\r, \\n
+                                String val = entry.getValue().replace("\"", "\\\"")
+                                    .replace("\r","\\r")
+                                    .replace("\n","\\n");
+                                entry.setValue(val);
+                            }
                         }
                     }
 
@@ -551,6 +639,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public String getSwaggerType(Property p) {
         String swaggerType = super.getSwaggerType(p);
         String type;
+
+        if (swaggerType == null) {
+            swaggerType = ""; // set swagger type to empty string if null
+        }
+
+        // TODO avoid using toLowerCase as typeMapping should be case-sensitive
         if (typeMapping.containsKey(swaggerType.toLowerCase())) {
             type = typeMapping.get(swaggerType.toLowerCase());
             if (languageSpecificPrimitives.contains(type)) {
@@ -579,6 +673,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toModelName(String name) {
+        // We need to check if import-mapping has a different model for this class, so we use it
+        // instead of the auto-generated one.
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }

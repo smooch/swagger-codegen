@@ -7,12 +7,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.OuterEnum;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * EnumTest
  */
+@Validated
 
 public class EnumTest   {
   /**
@@ -127,7 +129,7 @@ public class EnumTest   {
     return this;
   }
 
-   /**
+  /**
    * Get enumString
    * @return enumString
   **/
@@ -147,7 +149,7 @@ public class EnumTest   {
     return this;
   }
 
-   /**
+  /**
    * Get enumInteger
    * @return enumInteger
   **/
@@ -167,7 +169,7 @@ public class EnumTest   {
     return this;
   }
 
-   /**
+  /**
    * Get enumNumber
    * @return enumNumber
   **/
@@ -187,7 +189,7 @@ public class EnumTest   {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnum
    * @return outerEnum
   **/
