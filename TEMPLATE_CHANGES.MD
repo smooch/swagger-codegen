@@ -11,6 +11,7 @@
     - Uncomment ‘Bearer’ prefix
 - Add JSON Web Tokens (JWTs) section (in Getting Started) to explain JWT generation.
 - Fix module description (the Ruby gem for the {{appName}} API)
+- Add config.host code sample
 
 
 ### modules/swagger-codegen/src/main/resources/ruby/api_doc.mustache
@@ -31,6 +32,7 @@
 - Add JSON Web Tokens (JWTs) section (in Getting Started) to explain JWT generation.
 - Fix module description (the Ruby gem for the {{appName}} API)
 - Remove Author section
+- Add setBasePath code sample
 
 ### modules/swagger-codegen/src/main/resources/java/api_doc.mustache
 
@@ -51,6 +53,7 @@
 - Remove Author section
 - Removed unused imports
 - Convert generated JWT to string
+- Add configuration.host code sample
 
 ### modules/swagger-codegen/src/main/resources/python/api_doc.mustache
 
