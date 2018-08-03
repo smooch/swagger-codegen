@@ -22,19 +22,27 @@ Add this to the Gemfile:
 
 ## Getting Started
 
-### Authentication with JSON Web Tokens (JWTs)
+### Authentication
+
+Before you can make calls to the Smooch API, you'll need to create a secret key that proves you are authorized to use the API.
+
+Generate a KEY ID and SECRET on the settings tab in the [Smooch Dashboard](https://app.smooch.io/).
+
+![secret key and id](https://docs.smooch.io/images/secret_keys.png)
+
+Once you have a KEY ID and SECRET, you can choose to authenticate with either [basic auth](#basic-authentication) or with [JWTs](#jwt-authentication)
+
+#### Basic Authentication
+
+For basic authentication, all you need is your KEY ID and SECRET.
+
+#### JWT Authentication
 
 JSON Web Tokens (JWTs) are an industry standard authentication mechanism. A great introduction to the technology is available [here](https://jwt.io/introduction/), and a broad set of supported JWT libraries for a variety of languages and platforms are available.
 
 A JWT is composed of a header, a payload, and a signature. The payload contains information called claims which describe the subject to whom the token was issued.
 
-Before you can make calls to the Smooch API, you'll need to create a JWT that proves you are authorized to use the API.
-
-#### **Step 1** Generate a KEY ID and SECRET on the settings tab in the [Smooch Dashboard](https://app.smooch.io/).
-
-![secret key and id](https://docs.smooch.io/images/secret_keys.png)
-
- #### **Step 2** Generate the JWT
+##### Generate the JWT
 
 Using the [ruby-jwt](https://github.com/jwt/ruby-jwt) gem:
 
@@ -58,6 +66,8 @@ require '{{{gemName}}}'
   # Configure HTTP basic authorization: {{{name}}}
   config.username = 'YOUR USERNAME'
   config.password = 'YOUR PASSWORD'{{/isBasic}}{{#isApiKey}}
+  # OR
+
   # Configure API key authorization: {{{name}}}
   config.api_key['{{{keyParamName}}}'] = 'YOUR JWT'
   config.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}

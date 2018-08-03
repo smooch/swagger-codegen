@@ -28,6 +28,9 @@ from pprint import pprint
 # Configure HTTP basic authorization: {{{name}}}
 {{{packageName}}}.configuration.username = 'YOUR_USERNAME'
 {{{packageName}}}.configuration.password = 'YOUR_PASSWORD'{{/isBasic}}{{#isApiKey}}
+
+# OR
+
 # Configure API key authorization: {{{name}}}
 {{{packageName}}}.configuration.api_key['{{{keyParamName}}}'] = 'YOUR_JWT'
 {{{packageName}}}.configuration.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}

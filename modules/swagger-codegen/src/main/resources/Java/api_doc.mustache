@@ -34,6 +34,8 @@ ApiClient defaultClient = Configuration.getDefaultApiClient();
 HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
 {{{name}}}.setUsername("YOUR USERNAME");
 {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasic}}{{#isApiKey}}
+// OR
+
 // Configure API key authorization: {{{name}}}
 ApiKeyAuth {{{name}}} = (ApiKeyAuth) defaultClient.getAuthentication("{{{name}}}");
 {{{name}}}.setApiKey("YOUR JWT");
