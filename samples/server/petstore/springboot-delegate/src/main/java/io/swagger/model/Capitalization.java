@@ -5,12 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * Capitalization
  */
+@Validated
 
 public class Capitalization   {
   @JsonProperty("smallCamel")
@@ -36,7 +38,7 @@ public class Capitalization   {
     return this;
   }
 
-   /**
+  /**
    * Get smallCamel
    * @return smallCamel
   **/
@@ -56,7 +58,7 @@ public class Capitalization   {
     return this;
   }
 
-   /**
+  /**
    * Get capitalCamel
    * @return capitalCamel
   **/
@@ -76,7 +78,7 @@ public class Capitalization   {
     return this;
   }
 
-   /**
+  /**
    * Get smallSnake
    * @return smallSnake
   **/
@@ -96,7 +98,7 @@ public class Capitalization   {
     return this;
   }
 
-   /**
+  /**
    * Get capitalSnake
    * @return capitalSnake
   **/
@@ -116,7 +118,7 @@ public class Capitalization   {
     return this;
   }
 
-   /**
+  /**
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   **/
@@ -136,7 +138,7 @@ public class Capitalization   {
     return this;
   }
 
-   /**
+  /**
    * Name of the pet 
    * @return ATT_NAME
   **/

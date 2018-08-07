@@ -5,12 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * Category
  */
+@Validated
 
 public class Category   {
   @JsonProperty("id")
@@ -24,7 +26,7 @@ public class Category   {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
   **/
@@ -44,7 +46,7 @@ public class Category   {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
   **/

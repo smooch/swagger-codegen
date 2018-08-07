@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -12,6 +13,7 @@ import javax.validation.constraints.*;
  * Model for testing model name same as property name
  */
 @ApiModel(description = "Model for testing model name same as property name")
+@Validated
 
 public class Name   {
   @JsonProperty("name")
@@ -31,7 +33,7 @@ public class Name   {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
   **/
@@ -52,7 +54,7 @@ public class Name   {
     return this;
   }
 
-   /**
+  /**
    * Get snakeCase
    * @return snakeCase
   **/
@@ -72,7 +74,7 @@ public class Name   {
     return this;
   }
 
-   /**
+  /**
    * Get property
    * @return property
   **/
@@ -92,7 +94,7 @@ public class Name   {
     return this;
   }
 
-   /**
+  /**
    * Get _123Number
    * @return _123Number
   **/

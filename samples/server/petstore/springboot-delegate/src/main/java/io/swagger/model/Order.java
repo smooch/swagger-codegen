@@ -6,13 +6,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.joda.time.DateTime;
+import org.threeten.bp.OffsetDateTime;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * Order
  */
+@Validated
 
 public class Order   {
   @JsonProperty("id")
@@ -25,7 +27,7 @@ public class Order   {
   private Integer quantity = null;
 
   @JsonProperty("shipDate")
-  private DateTime shipDate = null;
+  private OffsetDateTime shipDate = null;
 
   /**
    * Order Status
@@ -71,7 +73,7 @@ public class Order   {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
   **/
@@ -91,7 +93,7 @@ public class Order   {
     return this;
   }
 
-   /**
+  /**
    * Get petId
    * @return petId
   **/
@@ -111,7 +113,7 @@ public class Order   {
     return this;
   }
 
-   /**
+  /**
    * Get quantity
    * @return quantity
   **/
@@ -126,12 +128,12 @@ public class Order   {
     this.quantity = quantity;
   }
 
-  public Order shipDate(DateTime shipDate) {
+  public Order shipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
     return this;
   }
 
-   /**
+  /**
    * Get shipDate
    * @return shipDate
   **/
@@ -139,11 +141,11 @@ public class Order   {
 
   @Valid
 
-  public DateTime getShipDate() {
+  public OffsetDateTime getShipDate() {
     return shipDate;
   }
 
-  public void setShipDate(DateTime shipDate) {
+  public void setShipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
 
@@ -152,7 +154,7 @@ public class Order   {
     return this;
   }
 
-   /**
+  /**
    * Order Status
    * @return status
   **/
@@ -172,14 +174,14 @@ public class Order   {
     return this;
   }
 
-   /**
+  /**
    * Get complete
    * @return complete
   **/
   @ApiModelProperty(value = "")
 
 
-  public Boolean getComplete() {
+  public Boolean isComplete() {
     return complete;
   }
 
