@@ -66,20 +66,20 @@ Using the [jjwt](https://github.com/jwtk/jjwt) package:
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.crypto.MacProvider;
-import java.security.Key;
+import io.jsonwebtoken.security.Keys;
 
 import static io.jsonwebtoken.JwsHeader.KEY_ID;
 
 // ...
 
 String jwt = Jwts.builder()
-  .claim("scope", "app")
-  .setHeaderParam(KEY_ID, "YOUR_KEY_ID")
-  .signWith(
-    SignatureAlgorithm.HS256,
-    "YOUR_SECRET".getBytes("UTF-8")
-  )
-  .compact();
+    .claim("scope", "app")
+    .setHeaderParam(KEY_ID, "YOUR_KEY_ID")
+    .signWith(
+        Keys.hmacShaKeyFor("YOUR_SECRET".getBytes()),
+        SignatureAlgorithm.HS256
+    )
+    .compact();
 ```
 
 ### Running the code
