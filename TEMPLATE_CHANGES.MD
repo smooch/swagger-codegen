@@ -12,6 +12,7 @@
 - Add JSON Web Tokens (JWTs) section (in Getting Started) to explain JWT generation.
 - Fix module description (the Ruby gem for the {{appName}} API)
 - Add config.host code sample
+- Add Smooch API version table
 
 
 ### modules/swagger-codegen/src/main/resources/ruby/api_doc.mustache
@@ -33,6 +34,8 @@
 - Fix module description (the Ruby gem for the {{appName}} API)
 - Remove Author section
 - Add setBasePath code sample
+- Update JWT generation code sample to use io.jsonwebtoken.security
+- Add Smooch API version table
 
 ### modules/swagger-codegen/src/main/resources/java/api_doc.mustache
 
@@ -54,6 +57,7 @@
 - Removed unused imports
 - Convert generated JWT to string
 - Add configuration.host code sample
+- Add Smooch API version table
 
 ### modules/swagger-codegen/src/main/resources/python/api_doc.mustache
 
