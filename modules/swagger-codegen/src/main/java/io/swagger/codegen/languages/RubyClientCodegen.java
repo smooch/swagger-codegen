@@ -51,6 +51,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String gemAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected String modelPropertyNaming= "camelCase";
 
     protected static int emptyMethodNameCounter = 0;
 
@@ -177,7 +178,10 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
                     Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
         }
-
+        
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
+            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+        }
         if (additionalProperties.containsKey(GEM_NAME)) {
             setGemName((String) additionalProperties.get(GEM_NAME));
         }
@@ -454,7 +458,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = escapeReservedWord(name);
         }
 
-        return name;
+        return getNameUsingModelPropertyNaming(name);
     }
 
     @Override
@@ -634,6 +638,34 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         return underscore(sanitizeName(operationId));
     }
 
+    public void setModelPropertyNaming(String naming) {
+        if ("original".equals(naming) || "camelCase".equals(naming) ||
+            "PascalCase".equals(naming) || "snake_case".equals(naming)) {
+            this.modelPropertyNaming = naming;
+        } else {
+            throw new IllegalArgumentException("Invalid model property naming '" +
+                                               naming + "'. Must be 'original', 'camelCase', " +
+                                               "'PascalCase' or 'snake_case'");
+        }
+    }
+
+    public String getModelPropertyNaming() {
+        return this.modelPropertyNaming;
+    }
+
+    public String getNameUsingModelPropertyNaming(String name) {
+        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
+            case original:    return name;
+            case camelCase:   return camelize(name, true);
+            case PascalCase:  return camelize(name);
+            case snake_case:  return underscore(name);
+            default:          throw new IllegalArgumentException("Invalid model property naming '" +
+                                                                 name + "'. Must be 'original', 'camelCase', " +
+                                                                 "'PascalCase' or 'snake_case'");
+        }
+
+    }
+    
     @Override
     public String toApiImport(String name) {
         return gemName + "/" + apiPackage() + "/" + toApiFilename(name);
