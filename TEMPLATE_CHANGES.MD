@@ -13,6 +13,7 @@
 - Fix module description (the Ruby gem for the {{appName}} API)
 - Add config.host code sample
 - Add Smooch API version table
+- Add modelPropertyNaming support
 
 
 ### modules/swagger-codegen/src/main/resources/ruby/api_doc.mustache
