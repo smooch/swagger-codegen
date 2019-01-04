@@ -448,17 +448,15 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase();
         }
-
-        // camelize (lower first character) the variable name
-        // petId => pet_id
-        name = underscore(name);
+        
+        name = getNameUsingModelPropertyNaming(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
-        return getNameUsingModelPropertyNaming(name);
+        return name;
     }
 
     @Override
