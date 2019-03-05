@@ -14,7 +14,6 @@ To test code injection */ ' \" =end -- \\r\\n \\n \\r
 
 ### Example 
 ```python
-from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException

@@ -23,7 +23,6 @@ This can only be done by the logged in user.
 
 ### Example 
 ```python
-from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -70,7 +69,6 @@ Creates list of users with given input array
 
 ### Example 
 ```python
-from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -117,7 +115,6 @@ Creates list of users with given input array
 
 ### Example 
 ```python
-from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -164,7 +161,6 @@ This can only be done by the logged in user.
 
 ### Example 
 ```python
-from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -211,7 +207,6 @@ Get user by user name
 
 ### Example 
 ```python
-from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -259,7 +254,6 @@ Logs user into the system
 
 ### Example 
 ```python
-from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -309,7 +303,6 @@ Logs out current logged in user session
 
 ### Example 
 ```python
-from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -352,7 +345,6 @@ This can only be done by the logged in user.
 
 ### Example 
 ```python
-from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
