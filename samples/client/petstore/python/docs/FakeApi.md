@@ -18,7 +18,7 @@ To test \"client\" model
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -66,7 +66,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -143,7 +143,7 @@ To test enum parameters
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
