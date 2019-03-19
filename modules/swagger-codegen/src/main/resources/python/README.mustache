@@ -128,3 +128,28 @@ Class | Method | HTTP request | Description
 {{/isOAuth}}
 
 {{/authMethods}}
+
+## Integration with Google Cloud Platform
+
+Swagger client is using urllib3 as default http library, however Google Cloud Platform disallows it. 
+There are two ways you can use urllib3 in Appengine Standard: patch it to use App Engine’s URLFetch or enable sockets. 
+Which one to use depends on your situation and needs. URLFetch is more cost-effective as long as your usage is within the limitations for free app. Sockets are only available for paid apps.
+
+The first solution:
+
+```
+import smooch
+from urllib3.contrib.appengine import AppEngineManager
+
+# create swagger client
+client = smooch.AppApi()
+# patch urllib3 for App Engine to use URLFetch
+client.api_client.rest_client.pool_manager = AppEngineManager()
+```
+
+You can skip this solution if you choose to go with sockets. Just add the following lines to the app.yaml.
+
+```
+env_variables:
+  GAE_USE_SOCKETS_HTTPLIB : 'true'
+```
