@@ -50,13 +50,11 @@ compile "{{{groupId}}}:{{{artifactId}}}:{{{artifactVersion}}}"
 
 Before you can make calls to the Smooch API, you'll need to create a secret key that proves you are authorized to use the API.
 
-Generate a KEY ID and SECRET on the settings tab in the [Smooch Dashboard](https://app.smooch.io/).
-
-![secret key and id](https://docs.smooch.io/images/secret_keys.png)
+See [https://docs.smooch.io/guide/authentication-overview#api-keys]() for instructions.
 
 Once you have a KEY ID and SECRET, you can choose to authenticate with either [basic auth](#basic-authentication) or with [JWTs](#jwt-authentication)
 
-#### Basic Authentication
+#### Basic Authentication (recommended)
 
 For basic authentication, all you need is your KEY ID and SECRET.
 
@@ -112,6 +110,7 @@ public class {{{classname}}}Example {
         HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
         {{{name}}}.setUsername("YOUR USERNAME");
         {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasic}}{{#isApiKey}}
+
         // OR
 
         // Configure API key authorization: {{{name}}}
