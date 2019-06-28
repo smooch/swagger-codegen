@@ -30,16 +30,19 @@ import {{{package}}}.{{{classname}}};
 {{#hasAuthMethods}}
 ApiClient defaultClient = Configuration.getDefaultApiClient();
 {{#authMethods}}{{#isBasic}}
-// Configure HTTP basic authorization: {{{name}}}
+
+// Configure HTTP basic authorization (recommended): {{{name}}}
 HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
-{{{name}}}.setUsername("YOUR USERNAME");
-{{{name}}}.setPassword("YOUR PASSWORD");{{/isBasic}}{{#isApiKey}}
+{{{name}}}.setUsername("API_KEY_ID");
+{{{name}}}.setPassword("API_KEY_SECRET");{{/isBasic}}{{#isApiKey}}
+
 // OR
 
 // Configure API key authorization: {{{name}}}
 ApiKeyAuth {{{name}}} = (ApiKeyAuth) defaultClient.getAuthentication("{{{name}}}");
 {{{name}}}.setApiKey("YOUR JWT");
 {{{name}}}.setApiKeyPrefix("Bearer");{{/isApiKey}}{{#isOAuth}}
+
 // Configure OAuth2 access token for authorization: {{{name}}}
 OAuth {{{name}}} = (OAuth) defaultClient.getAuthentication("{{{name}}}");
 {{{name}}}.setAccessToken("YOUR ACCESS TOKEN");{{/isOAuth}}

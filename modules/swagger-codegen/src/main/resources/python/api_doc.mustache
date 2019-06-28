@@ -25,13 +25,14 @@ import {{{packageName}}}
 from {{{packageName}}}.rest import ApiException
 from pprint import pprint
 {{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
-# Configure HTTP basic authorization: {{{name}}}
-{{{packageName}}}.configuration.username = 'YOUR_USERNAME'
-{{{packageName}}}.configuration.password = 'YOUR_PASSWORD'{{/isBasic}}{{#isApiKey}}
+
+# Configure HTTP basic authorization (recommended): {{{name}}}
+{{{packageName}}}.configuration.username = 'API_KEY_ID'
+{{{packageName}}}.configuration.password = 'API_KEY_SECRET'{{/isBasic}}{{#isApiKey}}
 
 # OR
 
-# Configure API key authorization: {{{name}}}
+# Configure API key authorization (alternative): {{{name}}}
 {{{packageName}}}.configuration.api_key['{{{keyParamName}}}'] = 'YOUR_JWT'
 {{{packageName}}}.configuration.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}
 # Configure OAuth2 access token for authorization: {{{name}}}

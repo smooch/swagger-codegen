@@ -24,14 +24,16 @@ require '{{{gemName}}}'
 {{#hasAuthMethods}}
 # setup authorization
 {{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}
-  # Configure HTTP basic authorization: {{{name}}}
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'{{/isBasic}}{{#isApiKey}}
+  # Configure HTTP basic authorization (recommended): {{{name}}}
+  config.username = 'API_KEY_ID'
+  config.password = 'API_KEY_SECRET'{{/isBasic}}{{#isApiKey}}
+
   # OR
 
-  # Configure API key authorization: {{{name}}}
+  # Configure API key authorization (alternative): {{{name}}}
   config.api_key['{{{keyParamName}}}'] = 'YOUR JWT'
   config.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}
+
   # Configure OAuth2 access token for authorization: {{{name}}}
   config.access_token = 'YOUR ACCESS TOKEN'{{/isOAuth}}
 {{/authMethods}}end
