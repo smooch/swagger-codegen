@@ -46,25 +46,17 @@ compile "{{{groupId}}}:{{{artifactId}}}:{{{artifactVersion}}}"
 
 ## Getting Started
 
-### Authentication
+Familiarity with [Smooch API authentication](https://docs.smooch.io/guide/authentication-overview) is recommended.
 
-Before you can make calls to the Smooch API, you'll need to create a secret key that proves you are authorized to use the API.
+### Basic Authentication (recommended)
 
-See [https://docs.smooch.io/guide/authentication-overview#api-keys]() for instructions.
+With [basic authentication](https://docs.smooch.io/guide/basic-authentication), you can use your API key ID and secret to authenticate API requests. See below for a code sample.
 
-Once you have a KEY ID and SECRET, you can choose to authenticate with either [basic auth](#basic-authentication) or with [JWTs](#jwt-authentication)
+### Authentication with JSON Web Tokens (JWTs)
 
-#### Basic Authentication (recommended)
+See the [JSON Web Tokens (JWTs)]() guide for more information and guidelines on when to use this method. In general, you'll want to favor using basic authentication.
 
-For basic authentication, all you need is your KEY ID and SECRET.
-
-#### JWT Authentication
-
-JSON Web Tokens (JWTs) are an industry standard authentication mechanism. A great introduction to the technology is available [here](https://jwt.io/introduction/), and a broad set of supported JWT libraries for a variety of languages and platforms are available.
-
-A JWT is composed of a header, a payload, and a signature. The payload contains information called claims which describe the subject to whom the token was issued.
-
-##### Generate the JWT
+To generate a JWT, use your API key ID and secret.
 
 Using the [jjwt](https://github.com/jwtk/jjwt) package:
 
@@ -106,14 +98,14 @@ public class {{{classname}}}Example {
     public static void main(String[] args) {
         {{#hasAuthMethods}}ApiClient defaultClient = Configuration.getDefaultApiClient();
         {{#authMethods}}{{#isBasic}}
-        // Configure HTTP basic authorization: {{{name}}}
+        // Configure HTTP basic authorization (recommended): {{{name}}}
         HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
-        {{{name}}}.setUsername("YOUR USERNAME");
-        {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasic}}{{#isApiKey}}
+        {{{name}}}.setUsername("API_KEY_ID");
+        {{{name}}}.setPassword("API_KEY_SECRET");{{/isBasic}}{{#isApiKey}}
 
         // OR
 
-        // Configure API key authorization: {{{name}}}
+        // Configure JWT authorization (alternative method): {{{name}}}
         ApiKeyAuth {{{name}}} = (ApiKeyAuth) defaultClient.getAuthentication("{{{name}}}");
         {{{name}}}.setApiKey("YOUR JWT");
         {{{name}}}.setApiKeyPrefix("Bearer");{{/isApiKey}}{{#isOAuth}}
