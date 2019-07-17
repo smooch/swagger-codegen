@@ -1,7 +1,6 @@
 # Ruby Template Changes
 
 ### modules/swagger-codegen/src/main/resources/ruby/README.mustache
-
 - Removed gem building instructions
 - Removed development gem instructions
 - Removed install from git instructions
@@ -20,6 +19,7 @@
 
 ### modules/swagger-codegen/src/main/resources/ruby/api_doc.mustache
 
+- Fixed a bug where the generated code in the doc didn't generate "," between function parameters properly.
 - Update API KEY instructions to be JWT specific
   - ‘YOUR JWT’
   - Uncomment ‘Bearer’ prefix
