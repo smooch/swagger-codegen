@@ -26,6 +26,10 @@
 - Update basic authentication to be specific to API keys
   - Use `API_KEY_ID` and `API_KEY_SECRET` instead of `YOUR USERNAME` and `YOUR PASSWORD`
 
+### modules/swagger-codegen/src/main/resources/ruby/api_client.mustache
+
+- Fixed JWT auth always taking preference over basic auth even if a JWT was not provided
+
 # Java Template Changes
 
 ### modules/swagger-codegen/src/main/resources/java/README.mustache
