@@ -30,6 +30,10 @@
 
 - Fixed JWT auth always taking preference over basic auth even if a JWT was not provided
 
+### modules/swagger-codegen/src/main/resources/ruby/gemspec.mustache
+
+- Updated version of `json` gem used from `1.8.3` to `2.3.1`
+
 # Java Template Changes
 
 ### modules/swagger-codegen/src/main/resources/java/README.mustache
