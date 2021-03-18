@@ -39,10 +39,13 @@ module {{moduleName}}
         msg = @message
       end
 
-      msg += "\nHTTP status code: #{code}" if code
-      msg += "\nResponse headers: #{response_headers}" if response_headers
-      msg += "\nResponse body: #{response_body}" if response_body
+      error_response = {
+        code: code,
+        response_headers: response_headers,
+        response_body: response_body,
+      }
 
+      msg += "\n#{error_response}"
       msg
     end
   end
