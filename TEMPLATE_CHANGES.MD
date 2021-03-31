@@ -1,6 +1,7 @@
 # Ruby Template Changes
 
 ### modules/swagger-codegen/src/main/resources/ruby/README.mustache
+
 - Removed gem building instructions
 - Removed development gem instructions
 - Removed install from git instructions
@@ -33,6 +34,10 @@
 ### modules/swagger-codegen/src/main/resources/ruby/gemspec.mustache
 
 - Updated version of `json` gem used from `1.8.3` to `2.3.1`
+
+### modules/swagger-codegen/src/main/resources/ruby/api_error.mustache
+
+- Added `to_s` function to display error message
 
 # Java Template Changes
 
