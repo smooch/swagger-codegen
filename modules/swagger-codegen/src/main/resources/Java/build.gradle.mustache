@@ -1,5 +1,4 @@
-apply plugin: 'maven-publish'
-
+apply plugin: 'maven'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
@@ -31,15 +30,6 @@ if (secretPropsFile.exists()) {
     ext["sonatypeStagingProfileId"] = System.getenv('SONATYPE_STAGING_PROFILE_ID')
 }
 
-repositories {
-    mavenCentral()
-}
-
-//java {
-//    withSourcesJar()
-//    withJavadocJar()
-//}
-
 buildscript {
     repositories {
         mavenCentral()
@@ -50,10 +40,25 @@ buildscript {
     }
 }
 
-task copyDeps(type: Copy) {
-  from configurations.runtime
-  into 'build/lib'
+repositories {
+    mavenCentral()
 }
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    classifier = 'javadoc'
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
 
 if(hasProperty('target') && target == 'android') {
 
@@ -168,25 +173,17 @@ dependencies {
     testCompile "junit:junit:$junit_version"
 }
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-        }
-    }
+uploadArchives {
     repositories {
-        maven {
-            name = "sonatype"
-            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-
-            credentials {
-                username ossrhUsername
-                password ossrhPassword
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                 authentication(userName: ossrhUsername, password: ossrhPassword)
             }
         }
     }
 }
 
 signing {
-    sign publishing.publications
+    sign configurations.archives
 }
