@@ -1,40 +1,64 @@
+apply plugin: 'maven'
+apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'signing'
 
 group = '{{groupId}}'
 version = '{{artifactVersion}}'
 
+ext["signing.keyId"] = ''
+ext["signing.password"] = ''
+ext["signing.secretKeyRingFile"] = ''
+ext["ossrhUsername"] = ''
+ext["ossrhPassword"] = ''
+ext["sonatypeStagingProfileId"] = ''
+
+File secretPropsFile = project.rootProject.file('local.properties')
+if (secretPropsFile.exists()) {
+    Properties p = new Properties()
+    p.load(new FileInputStream(secretPropsFile))
+    p.each { name, value ->
+        ext[name] = value
+    }
+} else {
+    ext["signing.keyId"] = System.getenv('MAVEN_SIGNING_KEY_ID')
+    ext["signing.password"] = System.getenv('MAVEN_SIGNING_PASSWORD')
+    ext["signing.secretKeyRingFile"] = System.getenv('MAVEN_SIGNING_SECRET_KEY_RING_FILE')
+    ext["ossrhUsername"] = System.getenv('MAVEN_OSSRH_USERNAME')
+    ext["ossrhPassword"] = System.getenv('MAVEN_OSSRH_PASSWORD')
+    ext["sonatypeStagingProfileId"] = System.getenv('SONATYPE_STAGING_PROFILE_ID')
+}
+
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.+'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
     }
 }
-
-apply plugin: 'com.jfrog.bintray'
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-
-    configurations = ['archives'] //When uploading configuration files
-    publish = true
-    pkg {
-        repo = 'maven'
-        name = 'smooch-api'
-        userOrg = 'smoochorg'
-        desc = 'Smooch'
-        websiteUrl = 'http://smooch.io'
-    }
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
 }
+
+task javadocJar(type: Jar) {
+    from javadoc
+    classifier = 'javadoc'
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
 
 if(hasProperty('target') && target == 'android') {
 
@@ -147,4 +171,19 @@ dependencies {
     {{/java8}}
     compile "com.brsanthu:migbase64:2.2"
     testCompile "junit:junit:$junit_version"
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                 authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+        }
+    }
+}
+
+signing {
+    sign configurations.archives
 }
